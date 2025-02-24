@@ -35,14 +35,14 @@ if selection == "Eligibility Check":
     feature_order = ["MSinceMostRecentDelq", "MaxDelqEver", "ExternalRiskEstimate", "PercentTradesNeverDelq", "MSinceMostRecentInqexcl7days"]
 input_data = pd.DataFrame([[msince_recent_delq, max_delq_ever, external_risk_estimate, percent_trades_never_delq, msince_recent_inq]], columns=feature_order)
     
-if st.button("🚀 Check Eligibility"):
+    if st.button("🚀 Check Eligibility"):
         try:
             probability = model.predict(input_data)[0]
             threshold = 0.5
             prediction = "✅ Eligible for Review" if probability >= threshold else "❌ Denied"
             st.subheader("📢 Prediction Result")
             st.markdown(f"### {prediction}")
-            st.progress(probability)
+            st.progress(float(probability))
             
             if prediction == "❌ Denied":
                 explanation_text = (f"Your application was denied due to a low credit score ({external_risk_estimate}), "
