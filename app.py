@@ -32,25 +32,18 @@ if selection == "Eligibility Check":
         msince_recent_inq = st.number_input("🔍 Months Since Last Credit Inquiry", min_value=0, max_value=100, value=10)
         api_key = st.text_input("🔑 Enter OpenAI API Key (Optional for AI Explanation)", type="password")
     
-        feature_order = ["MSinceMostRecentDelq", "MaxDelqEver", "ExternalRiskEstimate", "PercentTradesNeverDelq", "MSinceMostRecentInqexcl7days"]
-
-# Ensure variables are properly initialized before DataFrame creation
-msince_recent_delq = st.number_input("📅 Months Since Last Delinquency", min_value=0, max_value=120, value=10)
-max_delq_ever = st.selectbox("⚠️ Max Delinquency Severity", options=list(range(9)), format_func=lambda x: f"Severity {x}" if x > 0 else "None")
-external_risk_estimate = st.number_input("📊 Credit Score (0-100)", min_value=0, max_value=100, value=50)
-percent_trades_never_delq = st.number_input("📈 Percentage of Non-Delinquent Trades", min_value=0, max_value=100, value=80)
-msince_recent_inq = st.number_input("🔍 Months Since Last Credit Inquiry", min_value=0, max_value=100, value=10)
-
-input_data = pd.DataFrame([[msince_recent_delq, max_delq_ever, external_risk_estimate, percent_trades_never_delq, msince_recent_inq]], columns=feature_order)
-
-if st.button("🚀 Check Eligibility"):
+    input_data = pd.DataFrame([[external_risk_estimate, msince_recent_delq, max_delq_ever, percent_trades_never_delq, msince_recent_inq]],
+                              columns=["ExternalRiskEstimate", "MSinceMostRecentDelq", "MaxDelqEver", "PercentTradesNeverDelq", "MSinceMostRecentInqexcl7days"])
+    
+    if st.button("🚀 Check Eligibility"):
         try:
-            probability = model.predict(input_data)[0]
+            input_dmatrix = xgb.DMatrix(input_data)
+            probability = model.predict(input_dmatrix)[0]
             threshold = 0.5
             prediction = "✅ Eligible for Review" if probability >= threshold else "❌ Denied"
             st.subheader("📢 Prediction Result")
             st.markdown(f"### {prediction}")
-            st.progress(float(probability))
+            st.progress(probability)
             
             if prediction == "❌ Denied":
                 explanation_text = (f"Your application was denied due to a low credit score ({external_risk_estimate}), "
