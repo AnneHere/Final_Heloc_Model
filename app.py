@@ -35,7 +35,7 @@ if selection == "Eligibility Check":
     feature_order = ["MSinceMostRecentDelq", "MaxDelqEver", "ExternalRiskEstimate", "PercentTradesNeverDelq", "MSinceMostRecentInqexcl7days"]
 input_data = pd.DataFrame([[msince_recent_delq, max_delq_ever, external_risk_estimate, percent_trades_never_delq, msince_recent_inq]], columns=feature_order)
     
-    if st.button("🚀 Check Eligibility"):
+if st.button("🚀 Check Eligibility"):
         try:
             probability = model.predict(input_data)[0]
             threshold = 0.5
