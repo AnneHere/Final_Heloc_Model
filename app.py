@@ -32,8 +32,8 @@ if selection == "Eligibility Check":
         msince_recent_inq = st.number_input("🔍 Months Since Last Credit Inquiry", min_value=0, max_value=100, value=10)
         api_key = st.text_input("🔑 Enter OpenAI API Key (Optional for AI Explanation)", type="password")
     
-    input_data = pd.DataFrame([[external_risk_estimate, msince_recent_delq, max_delq_ever, percent_trades_never_delq, msince_recent_inq]],
-                              columns=["ExternalRiskEstimate", "MSinceMostRecentDelq", "MaxDelqEver", "PercentTradesNeverDelq", "MSinceMostRecentInqexcl7days"])
+    feature_order = ["MSinceMostRecentDelq", "MaxDelqEver", "ExternalRiskEstimate", "PercentTradesNeverDelq", "MSinceMostRecentInqexcl7days"]
+input_data = pd.DataFrame([[msince_recent_delq, max_delq_ever, external_risk_estimate, percent_trades_never_delq, msince_recent_inq]], columns=feature_order)
     
     if st.button("🚀 Check Eligibility"):
         try:
