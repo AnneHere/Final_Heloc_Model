@@ -37,8 +37,7 @@ if selection == "Eligibility Check":
     
     if st.button("🚀 Check Eligibility"):
         try:
-            input_dmatrix = xgb.DMatrix(input_data)
-            probability = model.predict(input_dmatrix)[0]
+            probability = model.predict(input_data)[0]
             threshold = 0.5
             prediction = "✅ Eligible for Review" if probability >= threshold else "❌ Denied"
             st.subheader("📢 Prediction Result")
