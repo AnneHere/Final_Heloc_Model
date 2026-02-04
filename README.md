@@ -3,6 +3,7 @@
 Supervised machine learning project that builds and evaluates a binary classification model for initial screening of Home Equity Line of Credit (HELOC) applications. The system is designed as a decision-support component, providing risk-based recommendations and explanations to assist loan officers rather than replacing human judgment.
 
 1. Business Context
+
 Banks process large volumes of HELOC applications that are traditionally reviewed manually by expert loan officers. This process is time-consuming, costly, and difficult to scale.
 This project explores whether historical application data can be used to automate initial screening while maintaining regulatory compliance and human oversight.
 
